@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{%block title%}Back test{% endblock %}
+{%block content%}
+<script>
+    document.getElementById("base").classList.add('container');
+    document.getElementById("base").classList.remove('container-fluid');
+</script>
+<h2>Lancer un back Test sur une crypto</h2>
+<hr>
+<form  method="post">
+    <div class="row align-items-end   ">
+        <div class="col-4">
+            <label for="inputcoin">Crypto :</label>
+            <select id="inputcoin" name="inputcoin"  class="form-control">
+            <option value="none" selected>Choose a coin.. </option>
+            <option value="BTC">[BTC]Bitcoin</option>
+            <option value="ETH">[ETH]Ethereum</option>
+            <option value="CHZ">[CHZ]Chiliz</option>
+            <option value="AVAX">[AVAX]Avalanche</option>
+            <option value="ADA">[ADA]Cardano</option>
+            <option value="SOL">[SOL]Solana</option>
+            <option value="XRP">[XRP]Ripple</option>
+            <option value="DOT">[DOT]Polkadot</option>
+            <option value="LTC">[LTC]Litecoin</option>
+            <option value="FTM">[FTM]Fantom</option>
+            <option value="XLM">[XLM]Stellar</option>
+            <option value="LINK">[LINK]Chainlink</option>
+            <option value="UNI">[UNI]Uniswap</option>
+            <option value="FLOW">[FLOW]Flow</option>
+            <option value="MATIC">[MATIC]Polygon</option>
+            </select>
+        </div>
+        <div class="col-4">
+            <label for="inputStat">Stategie:</label>
+            <select id="inputStat" name="inputStat"  class="form-control">
+            <option value="none" selected>Choose a stategy</option>
+            <option value="tttsupertrend">[Trend]3 Super Trend</option>
+            <option value="crocodile">[Trend]Crocodile(5 EMA)</option>
+            <option value="emaxy">[Trend]Ema X Y</option>
+            <option value="trix">[Trend]TRIX</option>
+            <option value="adx">[Trend]ADX</option>
+            <option value="simple_ema">[Trend]Simple sma</option>
+            <option value="simple_sma">[Trend]Simple ema</option>
+            <option value="vortex_indicator">[Trend]Vortex Indicator</option>
+            <option value="awesome_oscillator">[Momentum]Awesome oscillator</option>
+            <option value="stochastic_oscillator">[Momentum]Stochastic Oscillator</option>
+            <option value="stoch_rsi">[Momentum]Stoch RSI</option>
+            <option value="wiliamsr">[Momentum]WiliamsR</option>
+            <option value="eom">[Volume]EOM</option>
+            <option value="cmf">[Volume]CMF</option>
+            <option value="mfi">[Volume]MFI</option>
+            <option value="obv">[Volume]OBV</option>
+
+            <option value="ulcer">[Volatility]Ulcer</option>
+            </select>
+        </div>
+        <div class="col-3">
+            <label for="prix">Mise de départ:</label>
+                <input type="number" name ="prix" id="prix" class="form-control" min='50' placeholder="USD">
+        </div>
+    </div>
+    <h6>Date de début de la simulation</h6>
+    <div class="row">
+        <div class="form-group col-4">
+            <label for="dayIn">Jour</label>
+            <input type="number" name="dayIn" id="dayIn" min="1" max="28" value="25"class="form-control" >
+        </div>
+        <div class="form-group col-4">
+            <label for="monthIn">Mois</label>
+            <select id="monthIn" name="monthIn" class="form-control">
+            <option   value="january">Janvier</option>
+            <option value="february">Fevier</option>
+            <option value="march">Mars</option>
+            <option value="april">Avril</option>
+            <option value="may">Mai</option>
+            <option selected value="june">Juin</option>
+            <option value="july">Juillet</option>
+            <option value="august">Aout</option>
+            <option value="september">Septembre </option>
+            <option value="october">Octobre </option>
+            <option value="november">Novembre</option>
+            <option value="december">Decembre</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <label for="yearIn">Année</label>
+            <input type="number" id="yearIn" name="yearIn" min="2017" value="2021" max="2022" class="form-control" >
+        </div>
+    </div>
+    <h6>Date de fin de la simulation</h6>
+    <div class="row align-items-end">
+        <div class="col-4">
+            <label for="dayout">Jour</label>
+            <input type="number" id="dayout" name="dayout" min="1" max="28" class="form-control"  placeholder="1-28">
+        </div>
+        <div class=" col-4">
+            <label for="monthout">Mois</label>
+            <select id="monthout" name="monthout" class="form-control">
+            <option  selected value="january">Janvier</option>
+            <option value="february">Fevier</option>
+            <option value="march">Mars</option>
+            <option value="april">Avril</option>
+            <option value="may">Mai</option>
+            <option value="june">Juin</option>
+            <option value="july">Juillet</option>
+            <option value="august">Aout</option>
+            <option value="september">Septembre </option>
+            <option value="october">Octobre </option>
+            <option value="november">Novembre</option>
+            <option value="december">Decembre</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <label for="yearout">Année</label>
+            <input type="number" name="yearout" id="yearout" min="2017" max="2022" class="form-control" placeholder="2017-2022">
+        </div>
+        <div class="col-2  ">
+                <input class="form-check-input"  type="checkbox" name="autoSizingCheck" id="autoSizingCheck" checked>
+                <label class="form-check-label" for="autoSizingCheck">
+                  Jusqu'à aujourd'hui
+                </label>
+        </div>
+    </div>
+    <hr>
+    <div class="row align-items-end " id="addforstrat">
+        
+    </div>
+    <hr>
+    <div class="row col-3 ">
+        <button type="submit" class="btn btn-primary">Lancer la simulation</button>
+    </div>
+</form>
+<hr>
+<h2>Trading views for date ajustement</h2>
+<hr>
+<!-- TradingView Widget BEGIN -->
+<!-- TradingView Widget BEGIN -->
+<div class="container">
+<div class="tradingview-widget-container">
+    <div id="tradingview_2c19a"></div>
+    <div class="tradingview-widget-copyright"><a href="https://fr.tradingview.com/symbols/BTCEUR/?exchange=COINBASE" rel="noopener" target="_blank"><span class="blue-text">BTCEUR graphique</span></a> par TradingView</div>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript">
+    new TradingView.widget(
+    {
+    "width": 980,
+    "height": 610,
+    "symbol": "COINBASE:BTCUSD",
+    "interval": "W",
+    "timezone": "Europe/Brussels",
+    "theme": "light",
+    "style": "1",
+    "locale": "fr",
+    "toolbar_bg": "#f1f3f6",
+    "enable_publishing": false,
+    "allow_symbol_change": true,
+    "container_id": "tradingview_2c19a"
+  }
+    );
+    </script>
+  </div>
+</div>
+  <!-- TradingView Widget END -->
+{% endblock %}

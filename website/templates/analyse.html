@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{%block title%}Analyse{% endblock %}
+
+{%block content%}
+<div class="jumbotron">
+    <h1 class="display-4">Resultat</h1>
+    <hr class="my-4">
+    <p class="lead">Tableau de trading view.</p>
+    <div class="tradingview-widget-container">
+        <div id="tradingview_2c19a"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+        <script type="text/javascript">
+        new TradingView.widget(
+        {
+        "width": 1000,
+        "height": 610,
+        "symbol": "BINANCE:{{coin}}",
+        "interval": "{{timeframe}}",
+        "timezone": "Europe/Brussels",
+        "theme": "light",
+        "style": "1",
+        "locale": "fr",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "tradingview_2c19a"
+      }
+        );
+        </script>
+      </div>
+    <hr class="my-4">
+    <p class="lead">Le prix de {{coin}} avec toutes les resistances regroupé en groupe.</p>
+    <div id='chart' class='chart'></div>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <script type='text/javascript'>
+      var graphs = {{graph_price | safe}};
+      Plotly.newPlot('chart',graphs,{});
+    </script>
+    <hr class="my-4">
+    <h2 class="display-4">Momentum indicator</h2>
+    <p class="lead">Le momentum est un indicateur d'analyse technique utilisé par les intervenants en bourse. À l'instar d'autres indicateurs techniques,
+         il donne des signaux d'achat ou de vente sur des actifs financiers, comme des actions.</p>
+    <h3 ><u>Stock RSI</u></h3>
+    <p >Le RSI stochastique, ou simplement StochRSI, est un indicateur d'analyse technique utilisé pour déterminer si un actif est en sur-achat en sur-vente, ainsi que pour identifier les tendances actuelles du marché.</p>
+    <li><b><i>RSI au-dessus de 0.8 ou en dessous de 0.2</i></b>
+        <p>L’indicateur StochRSI prend toute sa signification près des limites supérieures et inférieures de son aire de répartition. 
+            Par conséquent, l'indicateur est principalement utilisé pour identifier les points d'entrée et de sortie potentiels,
+             ainsi que les inversions de prix. Ainsi, une lecture de 0,2 ou moins indique qu'un actif est probablement survendu, 
+             alors qu'une lecture de 0,8 ou plus suggère qu'il est susceptible d'être suracheté.</p></li>
+    <li><b><i>RSI entre de 0.8 et 0.2</i></b>
+        <p> Lorsqu'il est autour de 0.5 si le StochRSI se placent régulièrement au-dessus de la barre des 0,5, 
+            cela peut suggérer la poursuite d'une tendance haussière ou à la hausse - surtout si les lignes commencent à se déplacer vers 0,8.
+             De même, des valeurs constamment inférieures à 0,5 et une tendance vers 0,2 indiquent une tendance baissière.
+        </p></li>
+        <h3 class="text-success">RESULTAT :Stock RSI sur {{coin}}</h3>
+    <div id='rsi' class='rsi'></div>
+    <script type='text/javascript'>
+        var riri = {{graph_rsi | safe}};
+        Plotly.newPlot('rsi',riri,{});
+    </script>
+    <hr class="my-4">
+    <h3 ><u>Williams %R</u></h3>
+    <p>Le Williams %R est un indicateur de momentum de la famille des oscillateurs.
+        Il a pour ambition de mettre en évidence les niveaux de surachat et de survente. C’est un indicateur borné qui évolue entre 0 et -100,
+        son fonctionnement est relativement similaire aux indicateurs RSI et Stochastique </p>
+    <li><b><i>Williams R au-dessus de -85 ou en dessous de -15</i></b>
+        <p>Le fait que le Williams %R se situe dans une sa zone de surachat (respectivement de survente) indique souvent que le titre se situe à un sommet potentiel 
+            (respectivement un creux). Le signal d’achat (respectivement de vente) sera lui donné lorsque l'indicateur sort de la zone.
+            En effet on constate que l'indicateur peut passer un certain temps dans sa zone de surachat (ou de survente), 
+            il faudra donc attendre une sortie de cette zone pour valider le mouvement de retournement des cours</p></li>
+    <li><b><i>Williams R  entre de -85 et -15</i></b>
+        <p>  On peut détecter les « failure swings ». Un « failure swing » ou échec oscillatoire est formé lorsque l’indicateur ne parvient pas à 
+            s’élever au-delà de sa ligne de référence haute (-15 par convention) dans le cadre 
+            d’un rallye haussier ou à l’inverse à retomber en dessous de sa ligne basse (le niveau des -80) 
+            dans le cadre d’un rallye baissier<b>(en gros, il fait pas -10 -> -85  mais-10 -> -65 -> -35 -> -85 )</b>.
+            Ce retournement dénote la faiblesse du mouvement entrepris. Si l’indicateur arrête de grimper et
+             se retourne avant d’avoir atteint sa ligne de référence haute, il montre la faiblesse de la hausse
+              et donne ainsi un signal de vente. A l’inverse, si l’indicateur stoppe sa chute et se retourne avant
+               d’avoir atteint sa ligne de référence basse, il montre la faiblesse de la baisse et donne un signal d’achat.
+        </p></li>
+        <h3 class="text-success" >RESULTAT :Williams %R sur {{coin}}</h3>
+        <div id='williams' class='williams'></div>
+        <script type='text/javascript'>
+            var pipi = {{graph_williams | safe}};
+            Plotly.newPlot('williams',pipi,{});
+        </script>
+        <hr class="my-4">
+        <h3 ><u>L'oscillateur Awesome</u></h3>
+        <p>Il y a plusieurs façons d'utiliser l'oscillateur Awesome pour avoir des informations de trading. La plus basique consiste à
+             observer les passages autour du point 0. Elle ne donne cependant pas de très bons résultats,
+              se déclenchant souvent avec retard, c'est pour cela que nous allons regarder plutôt <b>les double-creux ou double-sommets ("twin peaks")</b>.</p>
+        <li><b><i>Les double-creux ou double-sommets</i></b>
+            <p>
+                Dans la première situation on observe la formation de deux sommets sur l'Awesome. Ce qui est important de noter c'est que 
+                le deuxième pic est plus petit que le premier, c'est une condition impérative du signal. Dès la formation de ce deuxième sommet, 
+                on guettera la formation de la première barre rouge pour déclencher une vente.
+            </p></li>
+            <img src="{{url_for('static', filename='awesome2.png')}}"/>
+        
+        <p>Dans la seconde c'est l'inverse, nous avons deux creux qui se suivent, le deuxième étant là aussi plus petit que le premier. 
+            Dès l'apparition de la première barre verte sur ce deuxième creux, nous passons à l'achat.</p>
+        <li><b><i>La figure en "soucoupe"</i></b>
+            <p>Si le mouvement est haussier, la soucoupe se forme si deux barres rouges (au moins) apparaissent, la seconde étant 
+                idéalement un peu plus petite que la première, et qu'elles sont suivies d'une barre verte, plus haute. Cette 
+                configuration renforce le sentiment haussier et c'est cet exemple qui est matérialisé sur le graphique de Cap Gemini ci-dessous :
+            </p></li>
+            <img src="{{ url_for('static', filename='awesome3.png') }}" />
+            <p>A la baisse c'est l'inverse qui s'applique. Une soucoupe se formant si deux barres vertes apparaissent, suivies d'une barre rouge, plus longue.</p>
+            <h4 class="text-warning">LA FLEMME DE CREER UN GRAPIQUE: RAJOUTE SUR LE GRAPHE TRADING VIEW L'INDICATEUR "Awesome Oscillator"</h4>
+    <hr class="my-4">
+    <h2 class="display-4"><b>Indicateur de Tendances</b></h2>
+    <h3 ><u>Aligator</u></h3>
+    <p>L'Alligator est à classer dans la catégorie des indicateurs de tendance, son but est d'identifier les phases de marché les plus directives.
+         Pour l'auteur il est intéressant de déceler ces phases pendant lesquelles le marché est directif </p>
+    <p>L'indicateur comporte 3 courbes distinctes, qui se présentent comme des moyennes mobiles sur des periodes de plus en plus petites(Moyenne sur :21 jours / 8 jours/ 3 jours)</p>
+    <img src="{{ url_for('static', filename='alligator1.png') }}" />
+    <li><b><i>Absence de tendance </i></b>
+        <p>Les 3 moyenne s'entremêle ou sont très proche, aucunes tendance à signaler.</p></li>
+    <li><b><i>Tendance haussière</i></b>
+        <p>Si les 3 courbes évoluent en parallèle à une <b>montée</b> avec un ecart de plus en plus important entre elles <b>(3Jours > 8Jours > 21Jours)</b> jusqu'a un croissement de deux courbes</p></li>
+    <li><b><i>Tendance baissière</i></b>
+        <p>Si les 3 courbes évoluent en parallèle à une <b>descente</b> avec un ecart de plus en plus important entre elles <b>(21Jours > 8Jours > 3Jours)</b> jusqu'a un croissement de deux courbes</p></li>
+        <h3 class="text-success" >RESULTAT :Aligator sur {{coin}}</h3>
+        <div id='aligator' class='aligator'></div>
+        <script type='text/javascript'>
+            var papa = {{graph_aligator | safe}};
+            Plotly.newPlot('aligator',papa,{});
+        </script>
+        <hr class="my-4">
+        <h3 ><u>L'indicateur 3x Supertrend</u></h3>
+        <p>Le Supertrend est un indicateur technique qui vise à détecter les tendances des cours <b>Optimal sur des petites periodes</b>.En gros Super_trend = (1 ou -1) * Valeur_SuperTrend</p>
+        <p>Pour cette statégie, nous allons prendre <b>3</b> Supertrend et simplement regarder si le nombre est possitif</p>
+        <li><b><i>Tendance haussière</i></b>
+        <p>Quand on passe d'un  3Super_trend = -3/-2-/-1 vers 1/2/3</p></li>
+        <li><b><i>Tendance baissière</i></b>
+            <p>Quand on passe d'un  3Super_trend = 3/2/1 vers -3/-2-/-1</p></li>
+            <h3 class="text-success" >RESULTAT : 3 Supertrend  sur {{coin}}</h3>
+            <div id='supertrend' class='supertrend'></div>
+        <script type='text/javascript'>
+            var mama = {{graph_supertrend | safe}};
+            Plotly.newPlot('supertrend',mama,{});
+        </script>
+        <hr class="my-4">
+        <h2 class="display-4">Indicateur de Volume</h2>
+        <p class="lead"> Les indicateurs basés sur les volumes apportent de fait un complément intéressant à l’étude des cours ;
+             ils renseignent notamment sur la vélocité de la tendance et son risque de retournement.</p>
+        <h3 ><u>[EN COURS DE RECHERCHE]L'indicateur MFI:Money Flow Index[EN COURS DE RECHERCHE]</u></h3>
+        <p>Le MFI, Money Flow Index, est un indicateur utilisé pour mesurer le flux monétaire entrant et sortant d’une action. L’indicateur MFI utilise tant le prix que le 
+            volume pour déterminer la pression vendeuse et acheteuse. Le MFI permet de mesurer l’enthousiasme qui règne sur le marché.</p>
+            <p>Il oscille entre 1</p>
+            <li><b><i>Divergence</i></b>
+                <p>Losque le prix fait 2 bosses vers le haut(la premiere bosse < la deuxieme bosse) mais que MFI fait l'inverse: 
+                    2 bosses vers le bas, un crash arrive car le prix augmente et mais l'enthousiasme diminue, cela veut dire qu'il y a un risque de retournement</p>
+                    <p>Un paterne inverse prédit un BULLRUN</p></li>
+                <img src="{{ url_for('static', filename='mfi.png') }}" />
+                <li><b><i>Zone de sur-achat et sur-vente</i></b>
+                    <p>80 > x =>sur-achat et x < 20 => sur-vente, </p></li>
+                <h4 class="text-warning">Plus Simple d'utiliser Trading vieux: Indicateur ="Money Flow Index", astuce: ALT+t=Ligne /ALT+v = droite verticale</h4>
+</div>
+{% endblock %}
