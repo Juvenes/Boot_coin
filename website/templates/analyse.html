@@ -106,7 +106,12 @@
             </p></li>
             <img src="{{ url_for('static', filename='awesome3.png') }}" />
             <p>A la baisse c'est l'inverse qui s'applique. Une soucoupe se formant si deux barres vertes apparaissent, suivies d'une barre rouge, plus longue.</p>
-            <h4 class="text-warning">LA FLEMME DE CREER UN GRAPIQUE: RAJOUTE SUR LE GRAPHE TRADING VIEW L'INDICATEUR "Awesome Oscillator"</h4>
+            <h3 class="text-success" >RESULTAT :Awesome Oscillator + Prix sur {{coin}}</h3>
+            <div id='awesome' class='awesome'></div>
+        <script type='text/javascript'>
+            var bedo = {{graph_awesome | safe}};
+            Plotly.newPlot('awesome',bedo,{});
+        </script>
     <hr class="my-4">
     <h2 class="display-4"><b>Indicateur de Tendances</b></h2>
     <h3 ><u>Aligator</u></h3>
@@ -144,7 +149,7 @@
         <h2 class="display-4">Indicateur de Volume</h2>
         <p class="lead"> Les indicateurs basés sur les volumes apportent de fait un complément intéressant à l’étude des cours ;
              ils renseignent notamment sur la vélocité de la tendance et son risque de retournement.</p>
-        <h3 ><u>[EN COURS DE RECHERCHE]L'indicateur MFI:Money Flow Index[EN COURS DE RECHERCHE]</u></h3>
+        <h3 ><u>L'indicateur MFI:Money Flow Index</u></h3>
         <p>Le MFI, Money Flow Index, est un indicateur utilisé pour mesurer le flux monétaire entrant et sortant d’une action. L’indicateur MFI utilise tant le prix que le 
             volume pour déterminer la pression vendeuse et acheteuse. Le MFI permet de mesurer l’enthousiasme qui règne sur le marché.</p>
             <p>Il oscille entre 1</p>
@@ -155,6 +160,11 @@
                 <img src="{{ url_for('static', filename='mfi.png') }}" />
                 <li><b><i>Zone de sur-achat et sur-vente</i></b>
                     <p>80 > x =>sur-achat et x < 20 => sur-vente, </p></li>
-                <h4 class="text-warning">Plus Simple d'utiliser Trading vieux: Indicateur ="Money Flow Index", astuce: ALT+t=Ligne /ALT+v = droite verticale</h4>
+                    <h3 class="text-success" >RESULTAT : MFI + PRIX   sur {{coin}}</h3>
+                    <div id='mfi' class='mfi'></div>
+        <script type='text/javascript'>
+            var bati = {{graph_mfi | safe}};
+            Plotly.newPlot('mfi',bati,{});
+        </script>
 </div>
 {% endblock %}

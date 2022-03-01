@@ -1,0 +1,111 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} 
+{% block content%}
+<div class="jumbotron">
+   <h2 class="display-4">Historique du portefeuille</h2>
+   <p class="lead">Auteur: {{wallet.name}}</p>
+      <p class="lead">Description: {{wallet.descript}}</p>
+      <p class="lead">Argent de départ: {{wallet.startmoney}}</p>
+    <hr class="my-4">
+   <div class="row">
+    <div class="social_media_list col-4">
+      <div class="single_media d-flex justify-content-between align-items-center">
+      <span class="mediaName"> <img src="{{ url_for('static', filename='btcimage.png') }}" alt=""> Coins</span>
+      <span class="earning_amount">
+      <h4>{{wallet.coin}} {{wallet.coinname}}</h4>
+      <p>PRIX EN EURO</p>
+      </span>
+      </div>
+      <div class="single_media dox d-flex justify-content-between align-items-center">
+      <span class="mediaName"> <img src="{{ url_for('static', filename='dollars.png') }}" > Liquide</span>
+      <span class="earning_amount">
+      <h4>{{wallet.money}}  USDT</h4>
+      </span>
+      </div>
+   </div>
+   <div class="col-4">
+      <div class="tradingview-widget-container">
+         <div class="tradingview-widget-container__widget"></div>
+         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+         {
+         "symbol": "BINANCE:{{wallet.coinname}}USDT",
+         "width": "350",
+         "colorTheme": "dark",
+         "isTransparent": false,
+         "locale": "fr"
+      }
+         </script>
+      </div>
+   </div>
+</div>
+<hr class="my-4">
+
+   <div class="row">
+      <div class="row col-6">
+         <form  method="post">
+            <input type="hidden"   value="addliquid" id="type" name="type">
+            <input type="hidden"   value="{{wallet.id}}" id="id" name="id">
+            <div class="input-group">
+               <input type="number" class="form-control" id="addmoney" min="100" name="addmoney" placeholder="min 100">
+               <div class="input-group-append">
+                  <button type="submit" class="btn btn-info mb-2">Ajouter de la liquidité</button>
+               </div>
+            </div>
+         </form>
+      </div>
+
+      <div class="row col-4">
+         <form  method="post">
+            <input type="hidden"   value="tocoin" id="type" name="type">
+            <input type="hidden"   value="{{wallet.id}}" id="id" name="id">
+            <button type="submit" class="btn btn-success mb-2">[Acheter] Liquidité => Coins</button>
+         </form>
+      </div>
+
+      <div class="row col-3">
+         <form  method="post">
+            <input type="hidden"   value="tomoney" id="type" name="type">
+            <input type="hidden"   value="{{wallet.id}}" id="id" name="id">
+            <button type="submit" class="btn btn-warning mb-2">[Vendre] Coins => Liquidité</button>
+         </form>
+      </div>
+
+
+   </div>
+
+
+   <div class="table-responsive">
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Type</th>
+            <th scope="col">Prix fermeture</th>
+            <th scope="col">Valeur</th>
+            <th scope="col">Re-Analyse</th>
+            <th scope="col">Explications</th>
+
+          </tr>
+        </thead>
+        <tbody>
+         {% for transaction in wallet.transactions %}
+         <tr>
+         <td>{{transaction.date}}</td>
+         <td>{{transaction.type}}</td>
+         <td>{{transaction.close}}</td>
+         <td>{{transaction.wallet}}</td>
+         <td>{{transaction.reanalyse}}</td>
+         <td><form  method="post">
+            <input type="hidden"   value="goex" id="type" name="type">
+            <input type="hidden"   value="{{wallet.id}}" id="id" name="id">
+            <input type="hidden"   value="{{transaction.id}}" id="tid" name="tid">
+            <button type="submit" class="btn btn-primary">Explications</button>
+        </form></td>
+         </tr>
+         {% endfor %}
+        </tbody>
+   </div>
+
+</div>
+
+
+{% endblock %}

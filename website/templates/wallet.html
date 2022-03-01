@@ -1,0 +1,80 @@
+{% extends "base.html" %} {% block title %}Portefeuille{% endblock %} 
+{% block content%}
+<div class="jumbotron">
+    <h1 class="display-4">Ajouter un Portefeuille</h1>
+    <hr class="my-4">
+<form  method="post">
+    <div class="form-row">
+    <div class="form-group col-3">
+        <label for="auteur">Auteur</label>
+        <input type="text" class="form-control" id="auteur" name="auteur">
+      </div>
+      <div class="form-group col-8">
+        <label for="desc">Description</label>
+        <input type="text" class="form-control" id="desc" name="desc">
+      </div>
+      <div class="form-group col-3">
+        <label for="mdp">Mot de passe</label>
+        <input type="text" class="form-control"  aria-describedby="emailHelp" id="mdp" name="mdp">
+        <small id="emailHelp" class="form-text text-muted">Laisse vide si tu veux que cela soit modifiable par tlm.</small>
+      </div>
+      <div class="col-4">
+        <label for="inputcoin">Crypto :</label>
+        <select id="inputcoin" name="inputcoin"  class="form-control">
+        <option selected value="BTC">[BTC]Bitcoin</option>
+        <option value="ETH">[ETH]Ethereum</option>
+        <option value="CHZ">[CHZ]Chiliz</option>
+        <option value="AVAX">[AVAX]Avalanche</option>
+        <option value="ADA">[ADA]Cardano</option>
+        <option value="SOL">[SOL]Solana</option>
+        <option value="XRP">[XRP]Ripple</option>
+        <option value="DOT">[DOT]Polkadot</option>
+        <option value="LTC">[LTC]Litecoin</option>
+        <option value="FTM">[FTM]Fantom</option>
+        <option value="XLM">[XLM]Stellar</option>
+        <option value="LINK">[LINK]Chainlink</option>
+        <option value="UNI">[UNI]Uniswap</option>
+        <option value="FLOW">[FLOW]Flow</option>
+        <option value="MATIC">[MATIC]Polygon</option>
+        </select>
+    </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Auteur</th>
+          <th scope="col">Description</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col">Coin</th>
+          <th scope="col">Historique</th>
+          <th scope="col">Supprimer</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for wallet in wallets%}
+        <tr>
+          <td>{{wallet.name}}</td>
+          <td colspan="3" >{{wallet.descript}}</td>
+          <td>{{wallet.coinname}}</td>
+          <td>
+            <form  method="post">
+                <input type="hidden"   value="{{wallet.id}}" id="id" name="id">
+                <button type="submit" class="btn btn-primary">Afficher</button>
+            </form>
+          </td>
+          <td>
+            <button class="btn btn-outline-secondary" onclick="del({{wallet.id}},'{{wallet.isPrivate}}','{{wallet.mdp}}')" style="color:rgb(221, 31, 31)" type="button">X</button>
+          </td>
+        </tr>
+        {%endfor %}
+      </tbody>
+    </table>
+</div>
+</div>
+
+{% endblock %}

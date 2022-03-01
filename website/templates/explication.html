@@ -1,0 +1,56 @@
+{% extends "base.html" %} {% block title %}Explications{% endblock %} 
+{% block content%}
+<div class="jumbotron">
+    <form  method="post">
+        <input type="hidden"   value="retour" id="type" name="type">
+        <input type="hidden"   value="{{transaction.id}}" id="id" name="id">
+        <button type="submit" class="btn btn-secondary float-right">Retour</button>
+    </form>
+    <h2 class="display-4">Analyse d'une transaction</h2>
+   <p class="lead">Date: {{transaction.date}}</p>
+      <p class="lead">Prix de fermeture: {{transaction.close}}</p>
+      <p class="lead">Ta liquidité: {{transaction.wallet}}</p>
+    <hr class="my-4">
+    <h3 class="display-4">Ajouter une explication</h3>
+    <form  method="post"  enctype="multipart/form-data">
+        <input type="hidden"   value="addExplication" id="type" name="type">
+        <input type="hidden"   value="{{transaction.id}}" id="id" name="id">
+        <div class="row">
+            <div class="col-4">
+        <label for="image">Image:</label>
+        <input type="file" class="form-control-file" id="image" name="image">
+        </div>
+        <div class="col-8">
+        <label for="explication">Explication:</label>
+        <textarea name="explication" id="explication" class="form-control"></textarea>
+        </div>
+        <div class="col-3">
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+        </div>
+    </div>
+    </form>
+    <hr class="my-4">
+    {% for explication in transaction.explications%}
+        <div class="row">
+            <div class="col-3">
+            {% if explication.havepic == true%}
+            <img src="{{ url_for('static', filename='/img/'+explication.transacid|string+'-'+explication.id|string+'.png') }}" />
+
+            {%endif%}
+            </div>
+            <div class="col-6">
+                <p class="lead">{{explication.descript}}</p>
+            </div>
+            <div class="col-1">
+               <h3  class="text-white bg-dark lead">{{explication.statement}}</h3> 
+            </div>
+            <div class="col-1">
+                <button type="button" onClick="change({{explication.id}},'FAUX',{{explication.transacid}})" class="btn btn-warning">FAUX</button>
+                <button type="button" onClick="change({{explication.id}},'VRAIE',{{explication.transacid}})"  class="btn btn-success">VRAI</button>
+                <button type="button" onClick="delex({{explication.id}},{{explication.transacid}})" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+        <hr class="my-4">
+    {% endfor %}
+</div>
+{% endblock %}

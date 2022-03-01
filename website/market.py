@@ -1,5 +1,4 @@
-from calendar import c
-from flask import Blueprint , render_template , request , flash ,redirect
+from flask import Blueprint , render_template , request 
 import pandas as pd
 from binance.client import Client
 import ta
@@ -10,15 +9,21 @@ from statistics import mean
 import plotly.express as px
 import datetime;
 from dateutil import relativedelta
+import numpy as np
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 
 market = Blueprint('market',__name__)
 
 
 
-
 @market.route('/',methods=['GET', 'POST'])
 def home():
+    return render_template("home.html")
+
+@market.route('/analyse',methods=['GET', 'POST'])
+def analyse_launch():
     if request.method == 'POST':
         coin = str(request.form.get("inputcoin"))+"USDT"
         timeframe= request.form.get("timeframe")
@@ -33,8 +38,8 @@ def home():
         elif (timeframe =="1w"):
             boulot="W"
         print(timeframe)
-        return render_template("analyse.html",coin=coin,graph_supertrend=superTrend(df,timeframe),graph_aligator =aligator_graph(df,timeframe),graph_williams =WillR_graph(df,timeframe),graph_rsi=stock_rsi_graph(df,timeframe),timeframe=boulot,graph_price=price_Graph(df,bite),awesome =round(df.iloc[-1]['AO'],2),wililiam =round(df.iloc[-1]['WillR'],2),stock_rsi =round(df.iloc[-1]['STOCH_RSI'],2))
-    return render_template("home.html")
+        return render_template("analyse.html",coin=coin,graph_mfi=mfi_graph(df,timeframe),graph_awesome=awesome_graph(df,timeframe),graph_supertrend=superTrend(df,timeframe),graph_aligator =aligator_graph(df,timeframe),graph_williams =WillR_graph(df,timeframe),graph_rsi=stock_rsi_graph(df,timeframe),timeframe=boulot,graph_price=price_Graph(df,bite),awesome =round(df.iloc[-1]['AO'],2),wililiam =round(df.iloc[-1]['WillR'],2),stock_rsi =round(df.iloc[-1]['STOCH_RSI'],2))
+    return render_template("analyse_lunch.html")
 
 
 def timecalculator(period):
@@ -70,6 +75,9 @@ def getcleandf(coin,timeframe,startime):
 def addrumble(df):
     #AWESOME OSCI -------------MOMENTUM 
     df['AO']= ta.momentum.awesome_oscillator(df['high'],df['low'],window1=6,window2=22)
+    df['BAO'] = df['AO'].shift(1)
+    df['color']=np.where(df['AO']>=df['BAO'], 'green', 'red')
+    del df['BAO']
     #Williams-R
     df['WillR'] = ta.momentum.williams_r(high=df['high'], low=df['low'], close=df['close'], lbp=14)
     #Stock_rsi
@@ -108,17 +116,6 @@ def addrumble(df):
     df['MFI']=ta.volume.money_flow_index(df['high'],df['low'],df['close'],df['volume'],window=14)
     df['eom']=ta.volume.ease_of_movement(df['high'],df['low'],df['volume'],window=14)
     df['eomema']=ta.volume.sma_ease_of_movement(df['high'],df['low'],df['volume'],window=14)
-    df['previouscloseobv']=df['close'].shift(1)
-    df['previousvolumeobv']=df['volume'].shift(1)
-    df['ppreviouscloseobv']=df['close'].shift(2)
-    df['ppreviousvolumeobv']=df['volume'].shift(2)
-    df['ppobv'] = ta.volume.on_balance_volume(df['ppreviouscloseobv'],df['ppreviousvolumeobv'])
-    df['pobv'] = ta.volume.on_balance_volume(df['previouscloseobv'],df['previousvolumeobv'])
-    df['obv'] = ta.volume.on_balance_volume(df['close'],df['volume'])
-    del df['previouscloseobv']
-    del df['previousvolumeobv']
-    del df['ppreviouscloseobv']
-    del df['ppreviousvolumeobv']
     return df
 
 
@@ -176,6 +173,34 @@ def superTrend(df,chiant):
     graphJSON = json.dumps(fata, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
+def awesome_graph(df,chiant):
+    taille =200
+    if(chiant == "1d" ):
+        taille = 50
+    elif(chiant == "1w" ):
+        taille = 15
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+    colors = {'red':'firebrick',
+            'green':'green'}
+    for t in df.tail(taille)['color'].unique():
+        dfp = df.tail(taille)[df.tail(taille)['color']==t]
+        fig.add_trace(go.Bar(x=dfp.index, y = dfp['AO'], name=t,
+                            marker_color=colors[t]),secondary_y=False)
+    fig.add_trace(go.Scatter(x=list(df.tail(taille).index),y=list(df.tail(taille).close),name="Price",line={"width":2,"color":"black"}), secondary_y=True)
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
+    
+def mfi_graph(df,chiant):
+    taille =200
+    if(chiant == "1d" ):
+        taille = 50
+    elif(chiant == "1w" ):
+        taille = 15
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+    fig.add_trace(go.Scatter(x=list(df.tail(taille).index),y=list(df.tail(taille).close),name="prix"), secondary_y=False)
+    fig.add_trace(go.Scatter(x=list(df.tail(taille).index),y=list(df.tail(taille).MFI),name="MFI"), secondary_y=True)
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
 
 #Crypto robot : https://github.com/CryptoRobotFr/General-code-trading-bot/blob/main/Support_Resistance.ipynb
 
@@ -234,7 +259,7 @@ def group_level(df, group_multiplier = 1):
 
     return important_levels
 
-def plot_level(df,top_bottom_window = 5, group_multiplier = 3, min_group_number = 2):
+def plot_level(df,top_bottom_window = 5, group_multiplier = 2, min_group_number = 2):
     df = get_top_and_bottom(df, top_bottom_window)
     levels = group_level(df, group_multiplier)
     
