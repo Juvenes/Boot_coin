@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{%block title%}Back test{% endblock %}
+{%block content%}
+<script>
+    document.getElementById("base").classList.add('container');
+    document.getElementById("base").classList.remove('container-fluid');
+</script>
+<h2>Lancer un back Test sur une crypto</h2>
+<hr>
+<form  method="post">
+    <div class="row flex-column">
+        <div class="col-4">
+            <label for="inputcoin">Crypto :</label>
+            <select id="inputcoin" name="inputcoin"  class="form-control">
+            <option value="none" selected>Choose a coin.. </option>
+            <option value="BTC">[BTC]Bitcoin</option>
+            <option value="ETH">[ETH]Ethereum</option>
+            <option value="CHZ">[CHZ]Chiliz</option>
+            <option value="AVAX">[AVAX]Avalanche</option>
+            <option value="ADA">[ADA]Cardano</option>
+            <option value="SOL">[SOL]Solana</option>
+            <option value="XRP">[XRP]Ripple</option>
+            <option value="DOT">[DOT]Polkadot</option>
+            <option value="LTC">[LTC]Litecoin</option>
+            <option value="FTM">[FTM]Fantom</option>
+            <option value="XLM">[XLM]Stellar</option>
+            <option value="LINK">[LINK]Chainlink</option>
+            <option value="UNI">[UNI]Uniswap</option>
+            <option value="FLOW">[FLOW]Flow</option>
+            <option value="MATIC">[MATIC]Polygon</option>
+            </select>
+        </div>
+        <div class="col-4" >
+            <label for="inputStat">Stategie:</label>
+            <select id="inputStat" name="inputStat"  class="form-control">
+            <option value="none" selected>Choose a stategy</option>
+            <option value="crocodile">[STRAT]Crocodile(5 EMA)</option>
+            <option value="emaxy">[STRAT]Double EMA</option>
+            </select>
+        </div>
+        <div class="col-3">
+            <label for="prix">Mise de départ:</label>
+                <input type="number" name ="prix" id="prix" class="form-control" min='50' placeholder="USD">
+        </div>
+    
+
+
+    <div class="col-4">
+        <label for="timing">Periode:</label>
+        <select id="timing" name="timing"  class="form-control">
+        <option value="bullrun" selected >BullRun</option>
+        <option value="crash">Crash</option>
+        <option value="normal">BullRun+Crash</option>
+        <option value="choice">choice</option>
+        </select>
+    </div>
+    <div class="col" id="morot">
+
+    </div>
+    
+        
+    <hr>
+    <div class="flex-column" id="addforstrat">
+        
+    </div>
+    <hr>
+    <div class="row col-3 ">
+        <button type="submit" class="btn btn-primary">Lancer la simulation</button>
+    </div>
+</div>
+</form>
+<hr>
+<h2>Trading views for date ajustement</h2>
+<hr>
+<!-- TradingView Widget BEGIN -->
+<!-- TradingView Widget BEGIN -->
+<div class="container">
+<div class="tradingview-widget-container">
+    <div id="tradingview_2c19a"></div>
+    <div class="tradingview-widget-copyright"><a href="https://fr.tradingview.com/symbols/BTCEUR/?exchange=COINBASE" rel="noopener" target="_blank"><span class="blue-text">BTCEUR graphique</span></a> par TradingView</div>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript">
+    new TradingView.widget(
+    {
+    "width": 980,
+    "height": 610,
+    "symbol": "COINBASE:BTCUSD",
+    "interval": "W",
+    "timezone": "Europe/Brussels",
+    "theme": "light",
+    "style": "1",
+    "locale": "fr",
+    "toolbar_bg": "#f1f3f6",
+    "enable_publishing": false,
+    "allow_symbol_change": true,
+    "container_id": "tradingview_2c19a"
+  }
+    );
+    </script>
+  </div>
+</div>
+  <!-- TradingView Widget END -->
+{% endblock %}

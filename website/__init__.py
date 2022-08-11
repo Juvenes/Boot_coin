@@ -14,8 +14,10 @@ def create_app():
     create_database(app)
     from .market import market
     from .wallet import wallet
+    from .backtestmenu import backtest_menu
     app.register_blueprint(market,url_prefix='/')
     app.register_blueprint(wallet,url_prefix='/')
+    app.register_blueprint(backtest_menu,url_prefix='/')
     return app
 
 
