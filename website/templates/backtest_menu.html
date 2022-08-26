@@ -14,6 +14,7 @@
             <select id="inputcoin" name="inputcoin"  class="form-control">
             <option value="none" selected>Choose a coin.. </option>
             <option value="BTC">[BTC]Bitcoin</option>
+            <option value="">[BTC]NONE</option>
             <option value="ETH">[ETH]Ethereum</option>
             <option value="CHZ">[CHZ]Chiliz</option>
             <option value="AVAX">[AVAX]Avalanche</option>
@@ -30,14 +31,23 @@
             <option value="MATIC">[MATIC]Polygon</option>
             </select>
         </div>
-        <div class="col-4" >
+        <div class="row col-10 align-items-end" >
+            <div class="col-5">
             <label for="inputStat">Stategie:</label>
             <select id="inputStat" name="inputStat"  class="form-control">
             <option value="none" selected>Choose a stategy</option>
-            <option value="crocodile">[STRAT]Crocodile(5 EMA)</option>
-            <option value="emaxy">[STRAT]Double EMA</option>
+            <option value="crocodile">[STRAT]Crocodile(5 EMA) + Stock RSI</option>
+            <option value="adx">[STRAT]Double EMA</option>
             </select>
+            </div>
+            <div class="col-5 ">
+            <input class="form-check-input"  type="checkbox" name="optimise" id="optimise">
+            <label class="form-check-label red " for="optimise">
+              Optimisation /!\ PREND BCP DE TEMPS  /!\ 
+            </label>
+            </div>
         </div>
+
         <div class="col-3">
             <label for="prix">Mise de départ:</label>
                 <input type="number" name ="prix" id="prix" class="form-control" min='50' placeholder="USD">
@@ -51,9 +61,11 @@
         <option value="bullrun" selected >BullRun</option>
         <option value="crash">Crash</option>
         <option value="normal">BullRun+Crash</option>
-        <option value="choice">choice</option>
+        <option value="All">ALL</option>
+        <option value="choice">Choisir date</option>
         </select>
     </div>
+    
     <div class="col" id="morot">
 
     </div>
