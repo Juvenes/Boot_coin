@@ -108,18 +108,18 @@ selecto.addEventListener('change', (event) => {
         <div class="form-group col-4">\
             <label for="monthIn">Mois</label>\
             <select id="" name="monthIn" class="form-control">\
-            <option   value="1">Janvier</option>\
-            <option value="2">Fevier</option>\
-            <option value="3">Mars</option>\
-            <option value="4">Avril</option>\
-            <option value="5">Mai</option>\
-            <option selected value="6">Juin</option>\
-            <option value="7">Juillet</option>\
-            <option value="8">Aout</option>\
-            <option value="9">Septembre </option>\
-            <option value="10">Octobre </option>\
-            <option value="11">Novembre</option>\
-            <option value="12">Decembre</option>\
+            <option   value="january">Janvier</option>\
+            <option value="february">Fevier</option>\
+            <option value="march">Mars</option>\
+            <option value="april">Avril</option>\
+            <option value="may">Mai</option>\
+            <option selected value="june">Juin</option>\
+            <option value="july">Juillet</option>\
+            <option value="august">Aout</option>\
+            <option value="september">Septembre </option>\
+            <option value="october">Octobre </option>\
+            <option value="november">Novembre</option>\
+            <option value="december">Decembre</option>\
             </select>\
         </div>\
         <div class="col-2">\
@@ -136,18 +136,18 @@ selecto.addEventListener('change', (event) => {
         <div class=" col-4">\
             <label for="monthout">Mois</label>\
             <select id="monthout" name="monthout" class="form-control">\
-            <option  selected value="1">Janvier</option>\
-            <option value="2">Fevier</option>\
-            <option value="3">Mars</option>\
-            <option value="4">Avril</option>\
-            <option value="5">Mai</option>\
-            <option value="6">Juin</option>\
-            <option value="7">Juillet</option>\
-            <option value="8">Aout</option>\
-            <option value="9">Septembre </option>\
-            <option value="10">Octobre </option>\
-            <option value="11">Novembre</option>\
-            <option value="12">Decembre</option>\
+            <option  selected value="january">Janvier</option>\
+            <option value="february">Fevier</option>\
+            <option value="march">Mars</option>\
+            <option value="april">Avril</option>\
+            <option value="may">Mai</option>\
+            <option value="june">Juin</option>\
+            <option value="july">Juillet</option>\
+            <option value="august">Aout</option>\
+            <option value="september">Septembre </option>\
+            <option value="october">Octobre </option>\
+            <option value="november">Novembre</option>\
+            <option value="december">Decembre</option>\
             </select>\
         </div>\
         <div class="col-2">\

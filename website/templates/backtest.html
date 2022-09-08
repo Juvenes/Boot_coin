@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{%block title%}Back test{% endblock %}
+{%block content%}
+<div class="jumbotron">
+    <h1 class="display-4">Resultat {{coin}}</h1>
+    <h1 class="display-4">Period : {{period}} </h1>
+    <hr class="my-4">
+    <p>Mise de départ : {{start_balance}}  $</p>
+    <p>Mise final sans bot{{nobot_balance}}</p>
+    <p>Mise final : {{final_balance}}  $</p>
+    <hr class="my-4">
+    <p>Performance sans bot: {{hold_perf}} %</p>
+    <p>Performance du bot{{bot_perf}}</p>
+    <hr class="my-4">
+    <p>Nombre de trades Gagnants: {{win_trades}}</p>
+    <p>Nombre de trades Perdants: {{loss_trades}}</p>
+    <p>Performance moyenne des trades Gagnants: {{win_perf}}</p>
+    <p>Performance moyenne des trades Perdants: {{loss_perf}}</p>
+    <p>Le meilleur trades {{best_trade}} fait le {{best_time}}</p>
+    <p>Le pire trades {{worst_trade}} fait le {{worst_time}}</p>
+    <hr class="my-4">
+    <p>Nombres d'échanges fait {{nb_trades}}</p>
+    <p>Frais total payée: {{fiais}}</p>
+    <hr class="my-4">
+    <h2 class="display-4">Graphique des Trades</h2>
+    <p>Ce graphique représente le cours du {{coin}} avec chaques moments où le bot a décidé de vendre ou d'acheter.</p>
+    <div id='trads' class='trads'></div>
+    <script type='text/javascript'>
+        var trads = {{graph_trads | safe}};
+        Plotly.newPlot('trads',riri,{});
+    </script>
+</div>
+
+
+
+{% endblock %}
